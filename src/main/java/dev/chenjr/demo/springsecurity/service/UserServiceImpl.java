@@ -10,22 +10,27 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 
 @Service
 public class UserServiceImpl implements UserDetailsService {
-//    @Autowired
-//    PasswordEncoder passwordEncoder;
-    private final HashMap<String, String> hardCodedUsers;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    private HashMap<String, String> hardCodedUsers;
 
-    public UserServiceImpl() {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @PostConstruct
+    public void initUsers() {
+        // 不能在构造函数用Autowired 的属性
+        // Bean初始化时候的执行顺序： 构造方法 -> @Autowired -> @PostConstruct
         this.hardCodedUsers = new HashMap<>();
         this.hardCodedUsers.put("admin", "admin");
         this.hardCodedUsers.put("jack", "123456");
         // 加密密码
         this.hardCodedUsers.replaceAll((u, v) -> passwordEncoder.encode(v));
     }
+
+
 
     /**
      * 根据用户名加载用户详情信息
