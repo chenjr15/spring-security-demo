@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 
+/**
+ * UserServiceImpl 该服务用来处理用户的加载，
+ */
 @Service
 public class UserServiceImpl implements UserDetailsService {
     @Autowired
@@ -33,7 +36,9 @@ public class UserServiceImpl implements UserDetailsService {
 
 
     /**
-     * 根据用户名加载用户详情信息
+     * 根据用户名加载用户详情信息.
+     * 即Security整体的框架及会在需要校验用户的时候调用该方法获得用户信息。
+     * 获得的用户信息包含该用户加密后的密码和用户权限(authority)，以及其他的诸如用户有没有被封禁有咩有
      *
      * @param username 用户名
      * @return 用户详情
